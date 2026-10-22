@@ -1,0 +1,8 @@
+# Secrets
+src/main/resources/db.properties
+
+# Build output (Maven)
+target/
+
+# VS Code settings
+.vscode/
