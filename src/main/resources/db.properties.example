@@ -1,0 +1,3 @@
+db.url=jdbc:mysql://localhost:3306/gudos_nest
+db.user=root
+db.password=put_your_password_here
