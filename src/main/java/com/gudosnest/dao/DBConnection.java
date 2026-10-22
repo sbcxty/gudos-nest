@@ -1,4 +1,4 @@
-package com.gudosnest;
+package com.gudosnest.dao;
 
 import java.io.InputStream;
 import java.sql.Connection;
