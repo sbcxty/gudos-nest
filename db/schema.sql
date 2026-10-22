@@ -7,8 +7,11 @@ CREATE TABLE Users (
     full_name VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     password_hash VARCHAR(60) NOT NULL,
-    role ENUM('owner','renter') NOT NULL,
-    account_status ENUM('active','suspended') NOT NULL DEFAULT 'active'
+    is_owner BOOLEAN NOT NULL DEFAULT FALSE,
+    is_renter BOOLEAN NOT NULL DEFAULT TRUE,
+    account_status ENUM('active','suspended')
+        NOT NULL DEFAULT 'active',
+    CHECK (is_owner = TRUE OR is_renter = TRUE)
 );
 
 CREATE TABLE Properties (
