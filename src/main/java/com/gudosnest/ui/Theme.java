@@ -1,74 +1,90 @@
 package com.gudosnest.ui;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 
 /**
- * Central place for colors, fonts, and small factories used to build
- * the visual language of the app.
- *
- * PALETTE v2 - aligned with the AuthFrame concept (Shekainah):
- * gradient lavender hero panel, serif display headings, dark-plum primary
- * buttons on soft neutral surfaces.
+ * Single source of truth for the app's colors and fonts.
+ * Palette and typography come straight from the design reference.
+ * One name per color - no aliases - so it stays easy to read.
  */
 public final class Theme {
-    // ---- Palette ----
-    public static final Color BG        = new Color(0xF2, 0xEE, 0xF6); // app background (soft lavender-gray)
-    public static final Color SURFACE   = new Color(0xFF, 0xFF, 0xFF); // cards / table containers
-    public static final Color BORDER    = new Color(0xE6, 0xE0, 0xEB); // hairline borders
 
-    public static final Color LAVENDER  = new Color(0xC9, 0xB8, 0xE4); // gradient start (hero/sidebar)
-    public static final Color ROSE      = new Color(0xEE, 0xD3, 0xDC); // gradient end (hero/sidebar)
-    public static final Color CREAM     = new Color(0xF5, 0xEF, 0xE6); // warm neutral (window bands)
+    // ------------------------------------------------------------------
+    // Core palette (from the design reference)
+    // ------------------------------------------------------------------
+    /** Sidebar base, primary branding, text accents. */
+    public static final Color BURGUNDY  = Color.decode("#36151E");
+    /** Sidebar gradient, navigation accents, headings. */
+    public static final Color PURPLE    = Color.decode("#593F62");
+    /** Decorative gradient effects and background glow. */
+    public static final Color VIOLET    = Color.decode("#7B6D8D");
+    /** Decorative sidebar and banner gradients. */
+    public static final Color BLUE      = Color.decode("#8499B1");
+    /** Secondary accents, avatar gradient, sidebar subtitles. */
+    public static final Color LIGHT_BLUE= Color.decode("#A5C4D4");
+    /** Main page background (light lavender). */
+    public static final Color PAGE_BG   = Color.decode("#EAE7EE");
+    /** Content cards, active nav buttons, text on the dark sidebar. */
+    public static final Color WHITE     = Color.WHITE;
+    /** Secondary text and subdued labels (muted gray-purple). */
+    public static final Color MUTED     = Color.decode("#736C7C");
+    /** Borders around cards and input fields (light gray-lavender). */
+    public static final Color HAIRLINE  = Color.decode("#E3DEE8");
 
-    public static final Color PRIMARY   = new Color(0x3B, 0x1F, 0x32); // dark plum - primary buttons/active nav
-    public static final Color PRIMARY_D = new Color(0x2A, 0x16, 0x24); // deeper plum - hover/footer band
-    public static final Color ACCENT    = new Color(0x8A, 0x6C, 0xA8); // violet accent - badges, highlights
+    // ------------------------------------------------------------------
+    // Derived helpers (kept small and purpose-specific)
+    // ------------------------------------------------------------------
+    /** Slightly lifted burgundy for hover states. */
+    public static final Color BURGUNDY_HOVER = Color.decode("#4A2130");
+    /** Input / field background. */
+    public static final Color FIELD_BG  = Color.decode("#FAF9FC");
+    /** Soft hover wash on light surfaces. */
+    public static final Color HOVER_BG  = Color.decode("#F4F1F8");
+    /** Placeholder / hint text. */
+    public static final Color HINT      = Color.decode("#A8A1B1");
+    /** Zebra stripe on tables. */
+    public static final Color ZEBRA     = Color.decode("#F8F6FB");
 
-    public static final Color TEXT      = new Color(0x24, 0x1B, 0x22); // main text (soft black)
-    public static final Color TEXT_MUT  = new Color(0x7A, 0x71, 0x80); // secondary text
+    // Status colors (not in the reference, kept for chips).
+    public static final Color GREEN = Color.decode("#2F9E62");
+    public static final Color AMBER = Color.decode("#C88A1C");
+    public static final Color RED   = Color.decode("#C03939");
 
-    public static final Color GREEN     = new Color(0x2F, 0x9E, 0x62); // status: good / paid / approved
-    public static final Color AMBER     = new Color(0xC8, 0x8A, 0x1C); // status: pending / low stock
-    public static final Color RED       = new Color(0xC0, 0x39, 0x39); // status: damaged / overdue
-    public static final Color BLUE      = new Color(0x5B, 0x5B, 0xB8); // status: info / in progress
+    // ------------------------------------------------------------------
+    // Typography - SansSerif family, sizes per the reference
+    // ------------------------------------------------------------------
+    /** Page title - Bold 30. */
+    public static final Font PAGE_TITLE      = f(Font.BOLD, 30);
+    /** App name / logo - Bold 22. */
+    public static final Font LOGO            = f(Font.BOLD, 22);
+    /** Section headings - Bold 18. */
+    public static final Font SECTION         = f(Font.BOLD, 18);
+    /** Card and panel headings - Bold 16. */
+    public static final Font CARD_HEADING    = f(Font.BOLD, 16);
+    /** Greeting line - Regular 16. */
+    public static final Font GREETING        = f(Font.PLAIN, 16);
+    /** Body text - Regular 14. */
+    public static final Font BODY            = f(Font.PLAIN, 14);
+    /** Buttons - Bold 14. */
+    public static final Font BUTTON          = f(Font.BOLD, 14);
+    /** Notifications - Bold 14. */
+    public static final Font NOTIFICATION    = f(Font.BOLD, 14);
+    /** Input fields - Regular 14. */
+    public static final Font INPUT           = f(Font.PLAIN, 14);
+    /** Secondary text - Regular 12. */
+    public static final Font SECONDARY       = f(Font.PLAIN, 12);
+    /** Secondary text, bold (eyebrows / labels) - Bold 12. */
+    public static final Font SECONDARY_BOLD  = f(Font.BOLD, 12);
 
-    // ---- Typography (designed for Poppins/Inter, falls back to Segoe UI/Georgia) ----
-    public static Font font(String style, int size) {
-        String family = style.startsWith("head") ? headingFamily() : bodyFamily();
-        return new Font(family, deriveFlags(style), size);
+    /** Builds a SansSerif font (the whole app uses one family). */
+    public static Font f(int style, int size) {
+        return new Font("SansSerif", style, size);
     }
 
-    private static String headingFamily() {
-        return anyInstalled(new String[]{"Poppins", "Georgia", "Dialog"});
-    }
-
-    private static String anyInstalled(String[] candidates) {
-        for (String c : candidates) {
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            for (String installed : ge.getAvailableFontFamilyNames()) {
-                if (installed.equalsIgnoreCase(c)) return installed;
-            }
-        }
-        return "Segoe UI";
-    }
-
-    private static String bodyFamily() {
-        return anyInstalled(new String[]{"Inter", "Segoe UI", "Dialog"});
-    }
-
-    private static String familyFor(String style) {
-        return anyInstalled(new String[]{
-                style.startsWith("head") ? "Poppins" : "Inter", "Segoe UI", "Dialog"});
-    }
-
-    private static int deriveFlags(String style) {
-        switch (style) {
-            case "head-bold": return Font.BOLD;
-            case "head":      return Font.BOLD;
-            case "body":      return Font.PLAIN;
-            case "body-bold": return Font.BOLD;
-            default:          return Font.PLAIN;
-        }
+    /** Returns the same color with a custom alpha (0-255). */
+    public static Color withAlpha(Color c, int alpha) {
+        return new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha);
     }
 
     private Theme() {}

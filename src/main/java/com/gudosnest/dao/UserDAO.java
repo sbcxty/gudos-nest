@@ -2,11 +2,16 @@ package com.gudosnest.dao;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.gudosnest.db.DBConnection;
 import com.gudosnest.model.User;
 
 import java.sql.*;
 
 public class UserDAO {
+
+    // ---------------------------------------------------------------
+    // WRITE
+    // ---------------------------------------------------------------
 
     // Register a user with one or both roles.
     public boolean register(String fullName, String email,
